@@ -1,18 +1,20 @@
 """ Programme principal pour jouer au jeu Quixo """
 
-import argparse
 import api
 import quixo
+import argparse
 
 def main():
+    """
+    Fonction principale pour démarrer le jeu Quixo.
+    """
     args = quixo.analyser_commande()
     idul = args.idul
-    secret = "votre-jeton-personnel"  
     if args.parties:
         parties = api.lister_parties(idul, secret)
         print(quixo.formater_les_parties(parties))
     else:
-        id_partie, joueurs, plateau = api.debuter_partie(idul, secret)
+        id_partie, joueurs, plateau = api.débuter_partie(idul, secret)
         print(quixo.formater_jeu(joueurs, plateau))
         while True:
             origine, direction = quixo.recuperer_le_coup()
@@ -20,5 +22,6 @@ def main():
             print(quixo.formater_jeu(joueurs, plateau))
 
 if __name__ == "__main__":
+    secret = "votre-jeton-personnel"
     main()
 
