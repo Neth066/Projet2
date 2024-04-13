@@ -1,10 +1,10 @@
-# Programme principal pour jouer au jeu Quixo
+""" Programme principal pour jouer au jeu Quixo """
 
 import api
 import quixo
 import argparse
 
-# Fonction pour démarrer le jeu
+""" Fonction pour démarrer le jeu """
 def main():
     args = quixo.analyser_commande()
     idul = args.idul
@@ -20,5 +20,5 @@ def main():
             print(quixo.formater_jeu(joueurs, plateau))
 
 if __name__ == "__main__":
-    secret = "votre-jeton-personnel"  # Remplacez par votre jeton personnel
+    secret = "votre-jeton-personnel"  
     main()

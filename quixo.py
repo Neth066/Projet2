@@ -1,4 +1,4 @@
-#  Ce fichier contient les fonctions pour le jeu Quixo
+"""  Ce fichier contient les fonctions pour le jeu Quixo """
 def formater_légende(joueurs):
     return f"Légende: X={joueurs[0]}, O={joueurs[1]}"
 
@@ -43,18 +43,41 @@ from quixo_error import QuixoError
 
 class Quixo:
     def __init__(self):
+        """
+        Initialise une nouvelle partie de Quixo.
+        """
         self.joueurs = ['X', 'O']
         self.plateau = Plateau()
 
     def __str__(self):
+        """
+        Retourne une représentation en chaîne de caractères de la partie.
+        """
         return f"Légende: X={self.joueurs[0]}, O={self.joueurs[1]}\n{self.plateau}"
 
     def déplacer_pion(self, joueur, origine, direction):
+        """
+        Déplace un pion sur le plateau.
+
+        Args:
+            joueur (str): Le joueur qui déplace le pion.
+            origine (tuple): La position d'origine du pion sur le plateau.
+            direction (str): La direction du déplacement.
+
+        Raises:
+            QuixoError: Si le joueur est invalide ou si le déplacement est impossible.
+        """
         if joueur not in self.joueurs:
             raise QuixoError("Joueur invalide.")
         self.plateau.insertion(joueur, origine, direction)
 
     def récupérer_le_coup(self):
+        """
+        Récupère le coup à jouer par le joueur.
+
+        Returns:
+            tuple: La position d'origine du pion et la direction du déplacement.
+        """
         position = input("Entrez la position du pion à déplacer (format: x,y) : ")
         direction = input("Entrez la direction du déplacement (haut, bas, gauche, droite) : ")
         return position, direction

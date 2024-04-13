@@ -3,12 +3,21 @@ from quixo_error import QuixoError
 
 class Plateau:
     def __init__(self, plateau=None):
+        """
+        Initialise un nouveau plateau de jeu.
+
+        Args:
+            plateau (list, optional): Le plateau initial. Defaults to None.
+        """
         if plateau is None:
             self.plateau = self.construire_plateau()
         else:
             self.plateau = self.construire_plateau(plateau)
 
     def __str__(self):
+        """
+        Retourne une représentation en chaîne de caractères du plateau.
+        """
         rows = []
         for i, row in enumerate(self.plateau):
             row_str = ' | '.join(row)
@@ -17,18 +26,52 @@ class Plateau:
         return f"   {divider}\n" + '\n'.join(rows) + f"\n--{divider}--\n  | 1 | 2 | 3 | 4 | 5"
 
     def __getitem__(self, position):
+        """
+        Retourne l'élément à la position spécifiée du plateau.
+
+        Args:
+            position (tuple): La position de l'élément sous forme (x, y).
+
+        Raises:
+            QuixoError: Si les coordonnées spécifiées sont invalides.
+
+        Returns:
+            str: L'élément à la position spécifiée du plateau.
+        """
         x, y = position
         if not (0 <= x < 5 and 0 <= y < 5):
             raise QuixoError("Les coordonnées spécifiées sont invalides.")
         return self.plateau[x][y]
 
     def __setitem__(self, position, value):
+        """
+        Modifie l'élément à la position spécifiée du plateau.
+
+        Args:
+            position (tuple): La position de l'élément sous forme (x, y).
+            value (str): La valeur à insérer.
+
+        Raises:
+            QuixoError: Si les coordonnées spécifiées sont invalides.
+        """
         x, y = position
         if not (0 <= x < 5 and 0 <= y < 5):
             raise QuixoError("Les coordonnées spécifiées sont invalides.")
         self.plateau[x][y] = value
 
     def construire_plateau(self, plateau=None):
+        """
+        Construit et valide un plateau de jeu.
+
+        Args:
+            plateau (list, optional): Le plateau initial. Defaults to None.
+
+        Raises:
+            QuixoError: Si le plateau est invalide.
+
+        Returns:
+            list: Le plateau construit.
+        """
         if plateau is None:
             return [[' ']*5 for _ in range(5)]
         else:
@@ -41,56 +84,10 @@ class Plateau:
             return plateau
 
     def état_plateau(self):
+        """
+        Retourne une copie profonde de l'état du plateau.
+
+        Returns:
+            list: Une copie profonde de l'état du plateau.
+        """
         return copy.deepcopy(self.plateau)
-
-    def insertion_par_le_bas(self, pion, origine):
-        x, y = origine
-        if not (0 <= x < 5 and 0 <= y < 5):
-            raise QuixoError("Les coordonnées spécifiées sont invalides.")
-        if self.plateau[4][y] != ' ':
-            raise QuixoError("Impossible d'insérer un pion par le bas à cette position.")
-        for i in range(4, 0, -1):
-            self.plateau[i][y] = self.plateau[i-1][y]
-        self.plateau[0][y] = pion
-
-    def insertion_par_le_haut(self, pion, origine):
-        x, y = origine
-        if not (0 <= x < 5 and 0 <= y < 5):
-            raise QuixoError("Les coordonnées spécifiées sont invalides.")
-        if self.plateau[0][y] != ' ':
-            raise QuixoError("Impossible d'insérer un pion par le haut à cette position.")
-        for i in range(4):
-            self.plateau[i][y] = self.plateau[i+1][y]
-        self.plateau[4][y] = pion
-
-    def insertion_par_la_gauche(self, pion, origine):
-        x, y = origine
-        if not (0 <= x < 5 and 0 <= y < 5):
-            raise QuixoError("Les coordonnées spécifiées sont invalides.")
-        if self.plateau[x][0] != ' ':
-            raise QuixoError("Impossible d'insérer un pion par la gauche à cette position.")
-        for i in range(4):
-            self.plateau[x][i] = self.plateau[x][i+1]
-        self.plateau[x][4] = pion
-
-    def insertion_par_la_droite(self, pion, origine):
-        x, y = origine
-        if not (0 <= x < 5 and 0 <= y < 5):
-            raise QuixoError("Les coordonnées spécifiées sont invalides.")
-        if self.plateau[x][4] != ' ':
-            raise QuixoError("Impossible d'insérer un pion par la droite à cette position.")
-        for i in range(4, 0, -1):
-            self.plateau[x][i] = self.plateau[x][i-1]
-        self.plateau[x][0] = pion
-
-    def insertion(self, pion, origine, direction):
-        if direction == 'haut':
-            self.insertion_par_le_haut(pion, origine)
-        elif direction == 'bas':
-            self.insertion_par_le_bas(pion, origine)
-        elif direction == 'gauche':
-            self.insertion_par_la_gauche(pion, origine)
-        elif direction == 'droite':
-            self.insertion_par_la_droite(pion, origine)
-        else:
-            raise QuixoError("Direction invalide.")
