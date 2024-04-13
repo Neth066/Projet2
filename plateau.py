@@ -23,7 +23,11 @@ class Plateau:
             row_str = ' | '.join(row)
             rows.append(f"{i+1} | {row_str} |")
         divider = '-' * (len(rows[0]) - 4)
-        return f"   {divider}\n" + '\n'.join(rows) + f"\n--{divider}--\n  | 1 | 2 | 3 | 4 | 5"
+        return (
+            f"   {divider}\n" + 
+            '\n'.join(rows) + 
+            f"\n--{divider}--\n  | 1 | 2 | 3 | 4 | 5"
+        )
 
     def __getitem__(self, position):
         """

@@ -53,7 +53,10 @@ class Quixo:
         """
         Retourne une représentation en chaîne de caractères de la partie.
         """
-        return f"Légende: X={self.joueurs[0]}, O={self.joueurs[1]}\n{self.plateau}"
+        return (
+            f"Légende: X={self.joueurs[0]}, O={self.joueurs[1]}\n" +
+            f"{self.plateau}"
+        )
 
     def déplacer_pion(self, joueur, origine, direction):
         """
@@ -81,4 +84,3 @@ class Quixo:
         position = input("Entrez la position du pion à déplacer (format: x,y) : ")
         direction = input("Entrez la direction du déplacement (haut, bas, gauche, droite) : ")
         return position, direction
-
