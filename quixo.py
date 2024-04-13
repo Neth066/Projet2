@@ -91,4 +91,3 @@ class Quixo:
         direction = input("Entrez la direction du déplacement (haut, bas, gauche, droite) : ")
         origine = [int(x) for x in origine_str.split(",")]
         return origine, direction
-

@@ -1,7 +1,12 @@
 import copy
 from quixo_error import QuixoError
 
+
 class Plateau:
+    """
+    Classe représentant le plateau de jeu Quixo.
+    """
+
     def __init__(self, plateau=None):
         """
         Initialise un nouveau plateau de jeu.
@@ -24,8 +29,8 @@ class Plateau:
             rows.append(f"{i+1} | {row_str} |")
         divider = '-' * (len(rows[0]) - 4)
         return (
-            f"   {divider}\n" + 
-            '\n'.join(rows) + 
+            f"   {divider}\n" +
+            '\n'.join(rows) +
             f"\n--{divider}--\n  | 1 | 2 | 3 | 4 | 5"
         )
 
@@ -87,7 +92,7 @@ class Plateau:
                         raise QuixoError("Le plateau ne peut contenir que des 'X', des 'O' ou des espaces.")
             return plateau
 
-    def état_plateau(self):
+    def etat_plateau(self):
         """
         Retourne une copie profonde de l'état du plateau.
 
