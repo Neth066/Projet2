@@ -1,28 +1,19 @@
-from plateau import Plateau
-from quixo_error import QuixoError
-import argparse
-
 """Ce fichier contient les fonctions pour le jeu Quixo"""
 
-def formater_legende(joueurs):
-    """Formate la légende du jeu."""
-    return f"Légende: X={joueurs[0]}, O={joueurs[1]}"
-
-def formater_plateau(plateau):
-    """Formate le plateau de jeu."""
-    rows = []
-    for i, row in enumerate(plateau):
-        rows.append("".join([" " + cell + " " + ("|" if j < 4 else "") for j, cell in enumerate(row)]))
-        if i < 4:
-            rows.append("--|---|---|---|---|")
-    return "\n".join(rows) + "\n  | 1   2   3   4   5"
-
-def formater_jeu(joueurs, plateau):
-    """Formate le jeu."""
-    return formater_legende(joueurs) + "\n" + formater_plateau(plateau)
+import argparse
+from plateau import Plateau
+from quixo_error import QuixoError
 
 def formater_les_parties(parties):
-    """Formate les parties."""
+    """
+    Formate les parties.
+
+    Args:
+        parties (list): Liste des parties.
+
+    Returns:
+        str: Les parties formatées.
+    """
     formatted_parties = []
     for partie in parties:
         id_partie = partie["id"]
@@ -33,11 +24,58 @@ def formater_les_parties(parties):
     return "\n".join(formatted_parties)
 
 def recuperer_le_coup():
-    """Récupère le coup à jouer par le joueur."""
-    origine_str = input("Donnez la position d'origine du bloc (x,y) : ")
-    direction = input("Quelle direction voulez-vous insérer? ('haut', 'bas', 'gauche', 'droite') : ")
+    """
+    Récupère le coup à jouer par le joueur.
+
+    Returns:
+        tuple: La position d'origine du pion et la direction du déplacement.
+    """
+    origine_str = input("Entrez la position du pion à déplacer (format: x,y) : ")
+    direction = input("Entrez la direction du déplacement (haut, bas, gauche, droite) : ")
     origine = [int(x) for x in origine_str.split(",")]
     return origine, direction
+
+def formater_plateau(plateau):
+    """
+    Formate le plateau de jeu.
+
+    Args:
+        plateau (Plateau): Le plateau de jeu.
+
+    Returns:
+        str: Le plateau de jeu formaté.
+    """
+    rows = []
+    for i, row in enumerate(plateau):
+        rows.append("".join([" " + cell + " " + ("|" if j < 4 else "") for j, cell in enumerate(row)]))
+        if i < 4:
+            rows.append("--|---|---|---|---|")
+    return "\n".join(rows) + "\n  | 1   2   3   4   5"
+
+def formater_legende(joueurs):
+    """
+    Formate la légende du jeu.
+
+    Args:
+        joueurs (list): Liste des joueurs.
+
+    Returns:
+        str: La légende du jeu.
+    """
+    return f"Légende: X={joueurs[0]}, O={joueurs[1]}"
+
+def formater_jeu(joueurs, plateau):
+    """
+    Formate le jeu.
+
+    Args:
+        joueurs (list): Liste des joueurs.
+        plateau (Plateau): Le plateau de jeu.
+
+    Returns:
+        str: Le jeu formaté.
+    """
+    return formater_legende(joueurs) + "\n" + formater_plateau(plateau)
 
 def analyser_commande():
     """Analyse la commande."""
@@ -48,6 +86,7 @@ def analyser_commande():
 
 class Quixo:
     """Classe représentant une partie de Quixo."""
+
     def __init__(self):
         """
         Initialise une nouvelle partie de Quixo.

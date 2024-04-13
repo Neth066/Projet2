@@ -1,13 +1,13 @@
 """ Programme principal pour jouer au jeu Quixo """
 
+import argparse
 import api
 import quixo
-import argparse
 
 def main():
     args = quixo.analyser_commande()
     idul = args.idul
-    secret = "votre-jeton-personnel"  # Remplacer par votre jeton personnel
+    secret = "votre-jeton-personnel"  
     if args.parties:
         parties = api.lister_parties(idul, secret)
         print(quixo.formater_les_parties(parties))
