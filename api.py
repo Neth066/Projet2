@@ -87,7 +87,8 @@ def jouer_coup(id_partie, origine, direction, idul, secret):
     Returns:
         tuple: ID de la partie, joueurs, plateau.
     """
-    rep = requests.put(BASE_URL + 'jouer/', auth=(idul, secret), json={"id": id_partie, "origine": origine, "direction": direction})
+    rep = requests.put(BASE_URL + 'jouer/', auth=(idul, secret), json={
+                       "id": id_partie, "origine": origine, "direction": direction})
     if rep.status_code == 200:
         data = rep.json()
         return data["id"], data["joueurs"], data["plateau"]
