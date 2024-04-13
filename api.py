@@ -1,13 +1,21 @@
-""" Ce fichier contient les fonctions pour interagir avec le serveur de jeu """
 import requests
+
 
 BASE_URL = 'https://pax.ulaval.ca/quixo/api/h24/'
 
-"""  Fonction pour lister les parties précédentes d'un joueur """
-     
-def lister_parties(idul, secret):
 
-    rep = requests.get(BASE_URL+'parties', auth=(idul, secret))
+def lister_parties(idul, secret):
+    """
+    Fonction pour lister les parties précédentes d'un joueur.
+
+    Args:
+        idul (str): L'IDUL du joueur.
+        secret (str): Le jeton secret du joueur.
+
+    Returns:
+        list: Liste des parties précédentes du joueur.
+    """
+    rep = requests.get(BASE_URL + 'parties', auth=(idul, secret))
     if rep.status_code == 200:
         return rep.json()["parties"]
     elif rep.status_code == 401:
@@ -17,8 +25,20 @@ def lister_parties(idul, secret):
     else:
         raise ConnectionError
 
-def récupérer_partie(id_partie, idul, secret):
-    rep = requests.get(BASE_URL+f'partie/{id_partie}', auth=(idul, secret))
+
+def recuperer_partie(id_partie, idul, secret):
+    """
+    Fonction pour récupérer une partie spécifique.
+
+    Args:
+        id_partie (str): L'identifiant de la partie à récupérer.
+        idul (str): L'IDUL du joueur.
+        secret (str): Le jeton secret du joueur.
+
+    Returns:
+        tuple: ID de la partie, joueurs, plateau, gagnant.
+    """
+    rep = requests.get(BASE_URL + f'partie/{id_partie}', auth=(idul, secret))
     if rep.status_code == 200:
         data = rep.json()
         return data["id"], data["joueurs"], data["plateau"], data["gagnant"]
@@ -29,8 +49,19 @@ def récupérer_partie(id_partie, idul, secret):
     else:
         raise ConnectionError
 
-def débuter_partie(idul, secret):
-    rep = requests.post(BASE_URL+'partie/', auth=(idul, secret))
+
+def debuter_partie(idul, secret):
+    """
+    Fonction pour démarrer une nouvelle partie.
+
+    Args:
+        idul (str): L'IDUL du joueur.
+        secret (str): Le jeton secret du joueur.
+
+    Returns:
+        tuple: ID de la partie, joueurs, plateau.
+    """
+    rep = requests.post(BASE_URL + 'partie/', auth=(idul, secret))
     if rep.status_code == 200:
         data = rep.json()
         return data["id"], data["joueurs"], data["plateau"]
@@ -41,8 +72,22 @@ def débuter_partie(idul, secret):
     else:
         raise ConnectionError
 
+
 def jouer_coup(id_partie, origine, direction, idul, secret):
-    rep = requests.put(BASE_URL+'jouer/', auth=(idul, secret), json={"id": id_partie, "origine": origine, "direction": direction})
+    """
+    Fonction pour jouer un coup dans une partie.
+
+    Args:
+        id_partie (str): L'identifiant de la partie.
+        origine (tuple): La position d'origine du coup.
+        direction (str): La direction du coup.
+        idul (str): L'IDUL du joueur.
+        secret (str): Le jeton secret du joueur.
+
+    Returns:
+        tuple: ID de la partie, joueurs, plateau.
+    """
+    rep = requests.put(BASE_URL + 'jouer/', auth=(idul, secret), json={"id": id_partie, "origine": origine, "direction": direction})
     if rep.status_code == 200:
         data = rep.json()
         return data["id"], data["joueurs"], data["plateau"]
